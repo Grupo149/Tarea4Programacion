@@ -74,11 +74,25 @@ def registrar_cliente(nombre, identificacion, correo, telefono):
         # Mostrar error sin detener el programa
 
         print("Error:", error)
+        
 
 #Pruebas
 
         # Cliente válido
-if __name__ == "__main__":("Yeison","1105612218","yeisonq2000@gmail.com","3107396243")
+if __name__ == "__main__":
 
-# Cliente inválido
-if __name__ == "__main__":("","abc","correo","123")
+    # Cliente válido
+    registrar_cliente(
+        "Yeison",
+        "1105612218",
+        "yeisonq2000@gmail.com",
+        "3107396243"
+    )
+
+    # Cliente inválido
+    registrar_cliente(
+        "",
+        "abc",
+        "correo",
+        "123"
+    )
