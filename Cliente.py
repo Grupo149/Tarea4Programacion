@@ -1,98 +1,74 @@
-# Importar herramientas para crear clases abstractas
-
 from abc import ABC, abstractmethod
 
-# Excepcion personalizada, sirve para mostrar errores con los clientes
-
+# Excepción personalizada
 class ClienteError(Exception):
     pass
 
-#Clase abstracta persona
-
+# Clase abstracta Persona
 class Persona(ABC):
 
-    # Constructor principal
-
+    # Constructor
     def __init__(self, nombre, identificacion):
         self.nombre = nombre
-        self.nombre = identificacion
+        self.identificacion = identificacion
 
-# Metodo para clases hijas
+    # Método abstracto
+    @abstractmethod
+    def mostrar_informacion(self):
+        pass
 
-@abstractmethod
-def mostrar_informacion(self):
-    pass
 
-# Clase cliente hereda de Persona
-
+# Clase Cliente
 class Cliente(Persona):
-
-    # Constructor de cliente
 
     def __init__(self, nombre, identificacion, correo, telefono):
 
-        # Validacion: nombre no puede estar vacio
-
+        # Validación nombre
         if nombre == "":
-            raise ClienteError("Nombre Vacio")
-        
-        # Validacion: identificacion debe ser numerica
+            raise ClienteError("El nombre no puede estar vacío")
 
+        # Validación identificación
         if not identificacion.isdigit():
-            raise ClienteError("Identificacion invalida")
-        
-        # Guardar correo y telefono
+            raise ClienteError("La identificación debe ser numérica")
 
+        # Heredar atributos
+        super().__init__(nombre, identificacion)
+
+        # Atributos propios
         self.correo = correo
         self.telefono = telefono
 
-        # Metodo obligatorio heredado
-        def mostrar_informacion(self):
+    # Método obligatorio heredado
+    def mostrar_informacion(self):
+        print("Nombre:", self.nombre)
+        print("ID:", self.identificacion)
+        print("Correo:", self.correo)
+        print("Teléfono:", self.telefono)
 
-            # Mostrar informacion completa del cliente
-            print("Nombre:", self.nombre) 
-            print("ID", self.identificacion)
-            print("Correo", self.correo)
-            print("Telefono", self.telefono)
 
 # Lista de clientes
+clientes = []
 
-clientes =[]
 
-# Funcion registar cliente
-
+# Función registrar cliente
 def registrar_cliente(nombre, identificacion, correo, telefono):
 
     try:
-        # Crear nuevo cliente
-        cliente = Cliente(nombre, identificacion, correo, telefono)
+        cliente = Cliente(
+            nombre,
+            identificacion,
+            correo,
+            telefono
+        )
+
         clientes.append(cliente)
+
         print("Cliente registrado correctamente")
+
+        return True
 
     except ClienteError as error:
 
-        # Mostrar error sin detener el programa
-
         print("Error:", error)
-        
 
-#Pruebas
-
-        # Cliente válido
-if __name__ == "__main__":
-
-    # Cliente válido
-    registrar_cliente(
-        "Yeison",
-        "1105612218",
-        "yeisonq2000@gmail.com",
-        "3107396243"
-    )
-
-    # Cliente inválido
-    registrar_cliente(
-        "",
-        "abc",
-        "correo",
-        "123"
-    )
+        return False
